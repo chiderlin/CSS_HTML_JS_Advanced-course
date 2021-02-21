@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>css3 animation</title>
+
+<style type="text/css">
+.effect{
+animation:blink 1s infinite;
+}
+/* 定義 blink 動畫 (blink是名稱,可以自己取)*/
+@keyframes blink{
+	0%{opacity:0}
+	50%{opacity:1}
+	100%{opacity:0}
+}
+
+</style>
+<script type="text/javascript">
+function start(){
+	var blink=document.getElementById("blink");
+	blink.classList.add("effect"); // 等於在div設定一個class叫effect,(用程式做設定)
+	
+}
+
+
+</script>
+</head>
+<body>
+	<div id="blink">Hello World</div>
+	<button onclick="start();">Start blink</button>
+</body>
+</html>

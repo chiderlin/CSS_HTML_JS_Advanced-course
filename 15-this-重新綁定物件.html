@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>函式綁定物件 this 進階課程</title>
+    </head>
+    <body>
+        <script>
+        // 進階: 自訂的綁定物件
+        // 使用 bind 重新綁定物件
+        /*
+        function test(){
+            console.log("綁定物件", this);
+        }
+        test();
+        let test2=test.bind({x:3});
+        test2();
+        let test3=test.bind(document); //測試只能用原本的test function來bind新值，不可用test2來bind，因為test2只是一個物件。
+        test3();
+        */
+
+        // 使用 apply 呼叫函式，可自己設定綁定物件
+        // funcName.apply(新綁定物件, [輸入參數1, 輸入參數2...]);
+            
+        function add(n1, n2){
+            console.log("結果", n1+n2);
+            console.log("綁定物件", this);
+        }
+        add(3,4); // 基本函式呼叫，無法自己設定綁定物件。
+        add.apply({y:4}, [4,5]); 
+        add.apply(document, [5,6]);
+
+        // 使用 call 呼叫函式，可自己設定綁定物件
+        // funcName.call(新綁定物件, 輸入參數1, 輸入參數2, ...);
+        add.call({z:10}, 10, 4);
+
+        /*
+            結論: 
+            bind用在函式沒有參數時使用重新綁定物件。
+            apply & call 用在函式有參數時使用重新綁定物件，
+            後兩者一樣，只是用法不同，看個人愛好選擇，
+            apply參數用串列方式輸入，
+            call參數用傳統方式直接輸入。
+        */
+        </script>
+    </body>
+</html>

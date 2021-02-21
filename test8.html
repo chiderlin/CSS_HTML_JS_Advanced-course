@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>transition練習</title>
+<script type="text/javascript">
+window.onload=function(){
+	var test=document.getElementById("test");
+	test.addEventListener("mouseover", function(){
+		this.style.opacity=0.5;
+		this.style.backgroundColor="red";
+		this.style.borderRadius="50%"; // 變圓形
+		// this.style.transform="skew(50deg, 0deg)"; //歪斜
+		// this.style.transform="scale(5,5)"; // 縮放
+	});
+	
+	test.addEventListener("mouseout",function(){
+		this.style.opacity=0.5;
+		this.style.backgroundColor="blue";
+		this.style.borderRadius="0%"; // 變回方形
+		// this.style.transform="scale(1,1)"; // 縮放
+	});
+	
+
+}
+
+</script>
+<style type="text/css">
+.test{
+width:100px;height:100px;background-color:blue;opacity:0.5;
+transition:opacity 1s, background-color 1s,transform 1s, border-radius 1s;
+}
+
+
+</style> 
+</head>
+<body>
+	<div class="test" id="test"></div>
+
+</body>
+</html>

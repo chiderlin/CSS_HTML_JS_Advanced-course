@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Canvas第二篇-影像處理</title>
+<script type="text/javascript">
+var cvs, ctx;
+window.onload=function(){
+	cvs=document.getElementById("cvs");
+	ctx=cvs.getContext("2d");
+	// 載入影像
+	var img=new Image(); //瀏覽器內建影像物件
+	img.src="mimi.jpg";
+	img.onload=function(){ // 註冊load事件,圖片載入完成後，才做繪製
+		ctx.drawImage(this, 0, 0, cvs.width, cvs.height);
+	};
+	
+	// ctx.drawImage(img, 0, 0, cvs.width, cvs.height); 
+	/*直接繪圖會失敗，因為匯入圖片需要時間，
+	所以要把它寫在load function裡面*/
+};
+/* 
+要讓這個反轉圖片的功能可以使用，
+必須要架一個server。(using擴充功能: Web Server for Chrome)
+canvas 面對本機的影像檔案，
+會因為安全性的考量，
+不讓程式去取得圖片中的像素資料，
+就無法做濾鏡的處理。
+*/
+
+//影像反轉處理
+function invertColor(){
+	 var pixels=ctx.getImageData(0, 0, cvs.width, cvs.height); // ImageData物件 //取得影像得細節內容
+	 var data=pixels.data; //pixels.data屬性,為陣列,存放所有的像素資訊
+	 // 一個像素佔據4個bytes，r,g,b,a(紅,綠,藍,透明度)(範圍0~255)
+	 for(var i=0;i<data.length;i+=4){
+		data[i]=255-data[i]; // 最大值255-紅色本身data[i] = 反轉值
+		data[i+1]=255-data[i+1]; // 綠色
+		data[i+2]=255-data[i+2]; //藍色
+	 }
+	 ctx.putImageData(pixels,0,0); //(ImageData物件,x,y) //把取得的圖片放回去
+}
+</script>
+</head>
+<body>
+<div><button onclick="invertColor();">顏色的反轉</button></div>
+<canvas id="cvs" width="800" height="600" style="border:1px solid #000000"></canvas>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Javascript完成動畫</title>
+<script type="text/javascript">
+
+function show(){
+	var box=document.getElementById("box");
+	
+	// 取得當前尺寸設定
+	var styles=window.getComputedStyle(box);
+	var size=styles.getPropertyValue("width"); //return 50px
+	size=parseInt(size);
+	// alert(size);
+	// 產生一個放大的動畫效果
+	var animeId=window.setInterval(function(){ //會傳回排程ID
+		// 設定停止條件
+		if(size>=200){
+			// 停止動畫
+			window.clearInterval(animeId); // 清除排程要給該排程的id
+			return;
+		}
+		
+		// 先調整數值
+		size+=2; //提高動畫速度(1~5是適中的值，太多會有中斷的感覺)
+		// 把數值放進box的css設定中，產生實際效果。
+		box.style.width=size+"px";
+		box.style.height=size+"px";
+	}, 5); //提高動畫速度 //每0.0x秒執行我們提供的匿名函式。
+}
+
+</script>
+<style type="text/css">
+.box{
+width:50px;height:50px;background-color:red;
+position:fixed;top:0px;right:0px; /* 方框位置的設定 */
+
+}
+
+</style>
+</head>
+<body>
+	<div class="box" id="box" onclick="show();"></div>
+</body>
+
+</html>

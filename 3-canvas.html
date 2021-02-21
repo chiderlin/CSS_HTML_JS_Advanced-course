@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Canvas</title>
+<script type="text/javascript">
+window.onload=function(){ //onload=> 程式執行時，自動load進來
+	var cvs=document.getElementById("cvs"); // 抓取canvas物件
+	var ctx=cvs.getContext("2d"); // 2D繪圖:2d 3D繪圖:webgl
+	// 用ctx提供的"屬性"或"方法"進行繪製
+	// Fill 填滿
+	ctx.fillStyle="red";
+	ctx.globalAlpha=0.5; //透明0~1
+	ctx.fillRect(50,50,100,100); //x,y,方形大小
+	
+	// stroke 描邊
+	ctx.strokeStyle="blue";
+	ctx.globalAlpha=1; //透明度也影響了下面的ctx.fill();
+	ctx.strokeRect(200,200,50,50);
+	
+	// Path 路徑
+	ctx.beginPath();
+	ctx.moveTo(200,100); //移動當前所在位置到x,y
+	ctx.lineTo(300,300); // 拉線
+	ctx.closePath();
+	ctx.stroke(); // ctx.fill(); // 套用stroke或fill樣式
+	
+	//利用路徑畫出多邊形
+	ctx.beginPath();
+	ctx.moveTo(300,300) //從300,300位置開始做移動
+	ctx.lineTo(400,350)
+	ctx.lineTo(250,400)
+	ctx.closePath();
+	ctx.fill(); //fill樣式要有至少兩條線(lineTO)才可以使用
+};
+
+</script>
+</head>
+<body>
+<canvas id="cvs" width="800" height="600" style="border:1px solid #000000"></canvas>
+
+
+</body>
+</html>

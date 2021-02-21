@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Canvas第二篇-影像處理</title>
+<script type="text/javascript">
+var cvs, ctx;
+window.onload=function(){
+	cvs=document.getElementById("cvs");
+	ctx=cvs.getContext("2d");
+	// 載入影像
+	/*
+	var img=new Image(); 
+	img.src="mimi.jpg";
+	img.onload=function(){ 
+		ctx.drawImage(this, 0, 0, cvs.width, cvs.height);
+	};
+	*/
+};
+
+function invertColor(){
+	 var pixels=ctx.getImageData(0, 0, cvs.width, cvs.height); // ImageData物件 //取得影像得細節內容
+	 var data=pixels.data; //pixels.data屬性,為陣列,存放所有的像素資訊
+	 for(var i=0;i<data.length;i+=4){
+		data[i]=255-data[i]; // 最大值255-紅色本身data[i] = 反轉值
+		data[i+1]=255-data[i+1]; // 綠色
+		data[i+2]=255-data[i+2]; //藍色
+	 }
+	 ctx.putImageData(pixels,0,0); //(ImageData物件,x,y) //把取得的圖片放回去
+}
+function loadFile(input){
+	var file=input.files[0];
+	var src=URL.createObjectURL(file); //把上傳的照片轉換成URL
+	var img=new Image();
+	img.src=src; // 再把URL物件傳給img.src功能
+	img.onload=function(){
+		ctx.drawImage(this,0,0, cvs.width, cvs.height);
+	};
+}
+function savaFile(){
+	var link=document.getElementById("download"); //取得超連結物件
+	link.download="image.jpg"; // 影像被下載時的名稱
+	link.href=cvs.toDataURL("image/jpeg"); // 超連結的網址
+	link.click(); // 程式主動觸發點擊事件
+}
+
+
+</script>
+</head>
+<body>
+
+<div>
+	<input type="file" onchange="loadFile(this);"></input>
+	<button onclick="savaFile();">儲存檔案</button>
+	<a id="download"></a>
+	<button onclick="invertColor();">顏色的反轉</button>
+
+</div>
+<canvas id="cvs" width="600" height="400" style="border:1px solid #000000"></canvas>
+</body>
+</html>

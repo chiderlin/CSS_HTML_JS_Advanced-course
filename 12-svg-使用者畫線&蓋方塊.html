@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8" />
+<title>SVG-3</title>
+<script type="text/javascript">
+var svg;
+window.onload=function(){
+	svg=document.getElementById("svg");
+	svg.addEventListener("mousedown", mousedownSvg); //mousedown點一下的意思
+
+};
+
+function mousedownSvg(e){
+	var x=e.clientX;
+	var y=e.clientY;
+	// 用this的原因是因為和上面的addEventListener是一起的,this代表svg本身。
+	var bounding=this.getBoundingClientRect(); 
+	x=x-bounding.left;
+	y=y-bounding.top;
+	var line=createSvgElement("line",{
+		"x1":x, "y1":y, "x2":x, "y2":y,
+		"stroke":"red","stroke-width":2
+	});
+	this.appendChild(line);
+	
+	// 滑鼠移動的時候要做的事情
+	var drag=function(e){
+		line.setAttribute("x2", e.clientX-bounding.left);
+		line.setAttribute("y2", e.clientY-bounding.top);
+
+	};
+	
+	// 滑鼠放開的時候要做的事情
+	var drop=function(){ // 移除事件處理器
+		document.removeEventListener("mousemove", drag);
+		document.removeEventListener("mouseup", drop);
+	
+	};
+	document.addEventListener("mousemove", drag);
+	document.addEventListener("mouseup", drop);
+	// document 代表整份網頁，進一步表示滑鼠在整份網頁中移動的時候，都會被我們偵測到，這樣寫運作會比較穩定嘍 ~
+};
+
+
+
+/* // 點一下出現方框的做法
+function mousedownSvg(e){ // e使用者點擊之後會傳進來的座標
+	var x=e.clientX;
+	var y=e.clientY;
+	// alert("x:"+x+"y:"+y);
+	var bounding=this.getBoundingClientRect(); // 取得svg方框的資料
+	x=x-bounding.left; // 扣掉方框左上角x座標，取得正確距離
+	y=y-bounding.top; // 扣掉方框左上角y座標，取得正確距離
+	// 加入方形
+	var rect=createSvgElement("rect",{
+		"x":x,"y":y,
+		"width":100, "height":100,
+		"fill":"black"
+	});
+	this.appendChild(rect);
+}
+*/
+
+function createSvgElement(tagName, attrs){
+	var element=document.createElementNS("http://www.w3.org/2000/svg",tagName);
+	for(var name in attrs){
+		element.setAttribute(name, attrs[name]);
+	}
+	return element;
+}
+
+
+</script>
+<style type="text/css"></style>
+</head>
+<body>
+<svg id="svg" width="640" height="480" style="border:1px solid #000000;"></svg>
+</body>
+</html>
